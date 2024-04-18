@@ -69,8 +69,8 @@ public class SemManager {
                 // insert command and we append the line to the current
                 // command
                 if (!line.trim().isEmpty()) {
-                    // add a space between multiple lines
-                    builder.append(" " + scanner.nextLine().trim());
+                    // keep the \n to distinguish between multiple lines
+                    builder.append(line);
                 }
                 else {
                     // don't process if there are no more lines
