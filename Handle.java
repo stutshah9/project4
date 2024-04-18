@@ -15,7 +15,7 @@ public class Handle {
      * @param startin
      *            Start location of the block in the memory manager
      * @param sizein
-     *            The size of the blovk in memory manager
+     *            The size of the block in memory manager
      */
     public Handle(int startin, int sizein) {
         start = startin;

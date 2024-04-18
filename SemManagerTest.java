@@ -23,4 +23,3 @@ public class SemManagerTest extends TestCase {
         SemManager.main(null);
     }
 }
-
