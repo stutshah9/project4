@@ -1,3 +1,6 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 /**
  * {Project Description Here}
@@ -32,11 +35,61 @@
 public class SemManager {
     /**
      * @param args
-     *     Command line parameters
+     *     Command line parameters: initial memory size, initial hash size, 
+     *     command file. Initial memory size and initial hash size are both
+     *     powers of 2.
      *     
      */
     public static void main(String[] args) {
         // This is the main file for the program.
         Seminar dum = new Seminar();
+
+        // the file containing the commands
+        File file = null;
+
+        // Attempts to open the file and scan through it
+        try {
+
+            // takes the third command line argument and opens that file
+            file = new File(args[2]);
+
+            // creates a scanner object
+            Scanner scanner = new Scanner(file);
+
+            // creates a command processor object
+            CommandProcessor cmdProc = new CommandProcessor();
+
+            // reads the entire file and processes the commands
+            // as blank lines are encountered (insert is a multi
+            // line command)
+            StringBuilder builder = new StringBuilder();
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                // a blank line has not been encountered, so this is an 
+                // insert command and we append the line to the current
+                // command
+                if (!line.trim().isEmpty()) {
+                    // add a space between multiple lines
+                    builder.append(" " + scanner.nextLine().trim());
+                }
+                else {
+                    // don't process if there are no more lines
+                    if(!builder.toString().isEmpty()) {
+                        cmdProc.processor(builder.toString());
+                        // clear the string to hold the next command
+                        builder = new StringBuilder();
+                    }
+                }
+            }
+            // closes the scanner
+            scanner.close();
+        }
+        // catches the exception if the file cannot be found
+        // and outputs the correct information to the console
+        catch (FileNotFoundException e) {
+            System.out.println("Invalid file");
+            e.printStackTrace();
+        }
+
     }
 }
