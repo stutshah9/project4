@@ -71,7 +71,7 @@ public class CommandProcessor {
         }
 
         else if (command.equals("delete")) {
-            // Call the delete method for the specified index of a record in the
+            // Call the delete method for the specified id of a record in the
             // hash table
             int id = Integer.parseInt(arr[1]);
             data.delete(id);
