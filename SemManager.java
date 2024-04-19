@@ -42,7 +42,7 @@ public class SemManager {
      */
     public static void main(String[] args) {
         // Initialize a hash table and memory manager using the parameters
-        MemoryManager mem = new MemoryManager(Integer.parseInt(args[0]);
+        MemoryManager mem = new MemoryManager(Integer.parseInt(args[0]));
         HashTable hash = new HashTable(Integer.parseInt(args[1]));
 
         // the file containing the commands
