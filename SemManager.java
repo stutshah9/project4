@@ -41,8 +41,9 @@ public class SemManager {
      *     
      */
     public static void main(String[] args) {
-        // This is the main file for the program.
-        Seminar dum = new Seminar();
+        // Initialize a hash table and memory manager using the parameters
+        MemoryManager mem = new MemoryManager(Integer.parseInt(args[0]);
+        HashTable hash = new HashTable(Integer.parseInt(args[1]));
 
         // the file containing the commands
         File file = null;
