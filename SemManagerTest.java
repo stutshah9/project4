@@ -1,8 +1,10 @@
 import student.TestCase;
 
 /**
- * @author {Your Name Here}
- * @version {Put Something Here}
+ * Tests the main method of the program
+ * 
+ * @author Stuti Shah & Lauren Spehlmann
+ * @version 4/19/2024
  */
 public class SemManagerTest extends TestCase {
     /**
@@ -20,6 +22,7 @@ public class SemManagerTest extends TestCase {
     {
         SemManager sem = new SemManager();
         assertNotNull(sem);
-        SemManager.main(null);
+        String[] args = {"0", "0", "P1Sample_inputX.txt"};
+        SemManager.main(args);
     }
 }

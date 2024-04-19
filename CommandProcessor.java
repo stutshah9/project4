@@ -84,19 +84,22 @@ public class CommandProcessor {
             data.search(id);
         }
 
-        else if (command.equals("print hashtable")) {
-            // Calls the print hashtable method that prints the keys and values
-            // of records in the hash table as well
-            // as the total number of records
-            data.printhashtable();
+        else if (command.equals("print")) {
+            // check the second arg to see what to print
+            if (arr[1].equals("hashtable"))
+            {
+             // Calls the print hashtable method that prints the keys and values
+                // of records in the hash table as well
+                // as the total number of records
+                data.printhashtable();
+            }
+            else {
+             // calls the print blocks method to print the number and sizes of
+                // available free blocks in the memory manager
+                data.printblocks();
+            }
+            
         }
-
-        else if (command.equals("print blocks")) {
-            // calls the print blocks method to print the number and sizes of
-            // available free blocks in the memory manager
-            data.printblocks();
-        }
-
         else {
             // the first white space delimited string in the line is not
             // one of the commands which can manipulate the database,
