@@ -13,9 +13,9 @@ public class Handle {
      * Constructor method for the handle class
      * 
      * @param startin
-     *            Start location of the block in the memory manager
+     *            Start location of the record in the hash table
      * @param sizein
-     *            The size of the block in memory manager
+     *            The size of the record in hash table
      */
     public Handle(int startin, int sizein) {
         start = startin;
@@ -24,9 +24,9 @@ public class Handle {
 
 
     /**
-     * getter method for the start location of the block
+     * getter method for the start location of the record
      * 
-     * @return the start location of the clock
+     * @return the start location of the record
      */
     public int getStart() {
         return start;
@@ -34,9 +34,9 @@ public class Handle {
 
 
     /**
-     * getter method for the size of the block
+     * getter method for the size of the record
      * 
-     * @return the size of the block
+     * @return the size of the record
      */
     public int getSize() {
         return size;
@@ -44,23 +44,23 @@ public class Handle {
 
 
     /**
-     * setter method for the start location of the block
+     * setter method for the start location of the record
      * 
-     * @param startOfBlock
-     *            the start location of the block
+     * @param startOfRecord
+     *            the start location of the record
      */
-    public void setStart(int startOfBlock) {
-        start = startOfBlock;
+    public void setStart(int startOfRecord) {
+        start = startOfRecord;
     }
 
 
     /**
-     * setter method for the size of the block
+     * setter method for the size of the record
      * 
-     * @param sizeOfBlock
-     *            the size of the block
+     * @param sizeOfRecord
+     *            the size of the record
      */
-    public void setSize(int sizeOfBlock) {
-        size = sizeOfBlock;
+    public void setSize(int sizeOfRecord) {
+        size = sizeOfRecord;
     }
 }
