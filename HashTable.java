@@ -145,23 +145,19 @@ public class HashTable {
     public String printHashtable() {
         int entries = 0;
         StringBuilder stringbuilder = new StringBuilder();
-        String s = "Hashtable:";
-        stringbuilder.append(s).append("\n");
         for (int i = 0; i < size; i++) {
             if (hashtable[i] != null) {
                 if (hashtable[i] == tombstone) {
-                    s = i + ": TOMBSTONE";
+                    String s = i + ": TOMBSTONE";
                     stringbuilder.append(s).append("\n");
                 }
                 else {
-                    s = i + ": " + hashtable[i].getKey();
+                    String s = i + ": " + hashtable[i].getKey();
                     stringbuilder.append(s).append("\n");
                     entries++;
                 }
             }
         }
-        s = "total records: " + entries;
-        stringbuilder.append(s).append("\n");
         return stringbuilder.toString();
     }
 

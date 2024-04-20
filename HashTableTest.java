@@ -46,7 +46,7 @@ public class HashTableTest extends TestCase {
         record2 = new Record(handle2, 2);
         record3 = new Record(handle3, 3);
         record4 = new Record(handle4, 10);
-        
+
         hashtable.insert(record1);
         hashtable.insert(record2);
         hashtable.insert(record3);
@@ -57,8 +57,8 @@ public class HashTableTest extends TestCase {
     public void testInsert() {
 
         System.out.print(hashtable.printHashtable());
-        assertEquals(systemOut().getHistory(), "Hashtable:\n" + "1: 1\n"
-            + "2: 2\n" + "3: 3\n" + "5: 10\n" + "total records: 4\n");
+        assertEquals(systemOut().getHistory(), "1: 1\r\n" + "2: 2\r\n"
+            + "3: 3\r\n" + "5: 10\n");
         systemOut().clearHistory();
 
     }
@@ -67,17 +67,19 @@ public class HashTableTest extends TestCase {
     public void testRemove() {
         hashtable.remove(2);
         System.out.print(hashtable.printHashtable());
-        assertEquals(systemOut().getHistory(), "Hashtable:\n" + "1: 1\n"
-            + "2: TOMBSTONE\n" + "3: 3\n" + "5: 10\n" + "total records: 3\n");
+        assertEquals(systemOut().getHistory(), "1: 1\r\n" + "2: TOMBSTONE\r\n"
+            + "3: 3\r\n" + "5: 10\n");
         systemOut().clearHistory();
     }
-    
+
+
     public void testSearch() {
         System.out.print(hashtable.search(3));
-        assertEquals(systemOut().getHistory(), "ID: 3, Title: Computing Systems Research at VT\r\n"
-            + "Date: 0701250830, Length: 30, X: 30, Y: 10, Cost: 17\r\n"
-            + "Description: Seminar about the Computing systems research at VT\r\n"
-            + "Keywords: high_performance_computing, grids, VT, computer_science");
+        assertEquals(systemOut().getHistory(),
+            "ID: 3, Title: Computing Systems Research at VT\r\n"
+                + "Date: 0701250830, Length: 30, X: 30, Y: 10, Cost: 17\r\n"
+                + "Description: Seminar about the Computing systems research at VT\r\n"
+                + "Keywords: high_performance_computing, grids, VT, computer_science");
         systemOut().clearHistory();
 
     }
