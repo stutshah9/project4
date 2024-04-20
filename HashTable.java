@@ -122,13 +122,14 @@ public class HashTable {
      *            The record that needs to be searched from the hash table
      * @return wether or not the record being searched for was foundf
      */
-    public Record search(int id) {
+    public String search(int id) {
         int home;
         int pos = home = h1(id);
         int c = h2(id);
         while (hashtable[pos] != null) {
             if (id == (hashtable[pos]).getKey()) { // Found it
-                return hashtable[pos];
+                Record temp = hashtable[pos];
+                return temp.getHandle().toString();
             }
             pos = (pos + c) % size; // probe
         }

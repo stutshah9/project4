@@ -9,10 +9,10 @@ import student.TestCase;
 public class HashTableTest extends TestCase {
 
     private HashTable hashtable;
-    private Handle handle1;
-    private Handle handle2;
-    private Handle handle3;
-    private Handle handle4;
+    private Seminar handle1;
+    private Seminar handle2;
+    private Seminar handle3;
+    private Seminar handle4;
     private Record record1;
     private Record record2;
     private Record record3;
@@ -20,37 +20,64 @@ public class HashTableTest extends TestCase {
 
     public void setUp() {
         hashtable = new HashTable(8);
-        handle1 = new Handle(1, 2);
-        handle2 = new Handle(5, 6);
-        handle3 = new Handle(2, 3);
-        handle4 = new Handle(1, 4);
+        handle1 = new Seminar(1, "Overview of HCI Research at VT", "0610051600",
+            90, (short)10, (short)10, 45, new String[] { "HCI",
+                "Computer_Science", "VT", "Virginia_Tech" },
+            "This seminar will present an overview of HCI research at VT");
+
+        handle2 = new Seminar(2,
+            "Computational Biology and Bioinformatics in CS at Virginia Tech",
+            "0610071600", 60, (short)20, (short)10, 30, new String[] {
+                "Bioinformatics", "computation_biology", "Biology",
+                "Computer_Science", "VT", "Virginia_Tech" },
+            "Introduction to bioinformatics and computation biology");
+
+        handle3 = new Seminar(3, "Computing Systems Research at VT",
+            "0701250830", 30, (short)30, (short)10, 17, new String[] {
+                "high_performance_computing", "grids", "VT",
+                "computer_science" },
+            "Seminar about the Computing systems research at VT");
+
+        handle4 = new Seminar(10, "Overview of HPC and CSE Research at VT",
+            "0703301125", 35, (short)0, (short)0, 25, new String[] { "HPC",
+                "CSE", "computer_science" },
+            "Learn what kind of research is done on HPC and CSE at VT");
         record1 = new Record(handle1, 1);
         record2 = new Record(handle2, 2);
         record3 = new Record(handle3, 3);
         record4 = new Record(handle4, 10);
-    }
-
-
-    public void testAll() {
+        
         hashtable.insert(record1);
         hashtable.insert(record2);
         hashtable.insert(record3);
         hashtable.insert(record4);
+    }
+
+
+    public void testInsert() {
 
         System.out.print(hashtable.printHashtable());
         assertEquals(systemOut().getHistory(), "Hashtable:\n" + "1: 1\n"
             + "2: 2\n" + "3: 3\n" + "5: 10\n" + "total records: 4\n");
         systemOut().clearHistory();
 
-        System.out.print(hashtable.search(3));
-        assertEquals(systemOut().getHistory(), "Hashtable:\n" + "1: 1\n"
-            + "2: 2\n" + "3: 3\n" + "5: 10\n" + "total records: 4\n");
-        systemOut().clearHistory();
+    }
 
+
+    public void testRemove() {
         hashtable.remove(2);
         System.out.print(hashtable.printHashtable());
         assertEquals(systemOut().getHistory(), "Hashtable:\n" + "1: 1\n"
             + "2: TOMBSTONE\n" + "3: 3\n" + "5: 10\n" + "total records: 3\n");
+        systemOut().clearHistory();
+    }
+    
+    public void testSearch() {
+        System.out.print(hashtable.search(3));
+        assertEquals(systemOut().getHistory(), "ID: 3, Title: Computing Systems Research at VT\r\n"
+            + "Date: 0701250830, Length: 30, X: 30, Y: 10, Cost: 17\r\n"
+            + "Description: Seminar about the Computing systems research at VT\r\n"
+            + "Keywords: high_performance_computing, grids, VT, computer_science");
         systemOut().clearHistory();
 
     }
