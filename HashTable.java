@@ -100,7 +100,7 @@ public class HashTable {
      * @param record
      *            The record that needs to be removed from the hash table
      */
-    public void delete(int id) {
+    public boolean delete(int id) {
         int home; // Home position for e
         int pos = home = h1(id); // Init probe sequence
         int c = h2(id); // second hash function
@@ -108,10 +108,12 @@ public class HashTable {
             if (hashtable[pos].getKey() == id) {
                 hashtable[pos] = tombstone;
                 number--;
+                return true;
             }
             pos = (pos + c) % size; // probe
 
         }
+        return false;
 
     }
 
@@ -137,7 +139,6 @@ public class HashTable {
         return null;
     }
 
-
     /**
      * the print method for the hashtable
      * 
@@ -146,19 +147,23 @@ public class HashTable {
     public String printHashtable() {
         int entries = 0;
         StringBuilder stringbuilder = new StringBuilder();
+        String s = "Hashtable:";
+        stringbuilder.append(s).append("\n");
         for (int i = 0; i < size; i++) {
             if (hashtable[i] != null) {
                 if (hashtable[i] == tombstone) {
-                    String s = i + ": TOMBSTONE";
+                    s = i + ": TOMBSTONE";
                     stringbuilder.append(s).append("\n");
                 }
                 else {
-                    String s = i + ": " + hashtable[i].getKey();
+                    s = i + ": " + hashtable[i].getKey();
                     stringbuilder.append(s).append("\n");
                     entries++;
                 }
             }
         }
+        s = "total records: " + entries;
+        stringbuilder.append(s).append("\n");
         return stringbuilder.toString();
     }
 

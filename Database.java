@@ -29,7 +29,14 @@ public class Database {
      * @param id
      */
     public void delete(int id) {
-        ht.delete(id);
+        if (!ht.delete(id)) {
+            System.out.println("Delete FAILED -- There is no record with ID "
+                + id);
+        }
+        else {
+            System.out.println("Record with ID " + id
+                + " successfully deleted from the database");
+        }
 
     }
 
@@ -51,19 +58,27 @@ public class Database {
      * @param id
      */
     public void search(int id) {
-        ht.search(id);
+        if (ht.search(id) == null) {
+            System.out.println("Search FAILED -- There is no record with ID "
+                + id);
+        }
+        else {
+            System.out.println("Found record with ID " + id + ":");
+            System.out.println(ht.search(id));
+        }
 
     }
+
 
     /**
      * print the hash table array
      */
     public void printhashtable() {
-        ht.printHashtable();
+        System.out.println(ht.printHashtable());
 
     }
 
-    
+
     public void printblocks() {
         // TODO Auto-generated method stub
 
