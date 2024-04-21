@@ -100,7 +100,7 @@ public class HashTable {
      * @param record
      *            The record that needs to be removed from the hash table
      */
-    public void remove(int id) {
+    public void delete(int id) {
         int home; // Home position for e
         int pos = home = h1(id); // Init probe sequence
         int c = h2(id); // second hash function

@@ -76,11 +76,11 @@ public class HashTableTest extends TestCase {
     }
 
     /**
-     * the test method for the remove in hashtable
+     * the test method for the delete in hashtable
      */
-    public void testRemove() {
+    public void testDelete() {
         hashtable.insert(record4);
-        hashtable.remove(2);
+        hashtable.delete(2);
         System.out.print(hashtable.printHashtable());
         assertEquals(systemOut().getHistory(), "1: 1\r\n" + "2: TOMBSTONE\r\n"
             + "3: 3\r\n" + "5: 10\n");
