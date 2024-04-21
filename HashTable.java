@@ -75,7 +75,7 @@ public class HashTable {
      * @param record
      *            The record that needs to be added into the hash table
      */
-    public void insert(Record record) {
+    public String insert(Record record) {
         if (size / 2 == number) {
             expand();
         }
@@ -88,6 +88,7 @@ public class HashTable {
         }
         hashtable[pos] = record;
         number++;
+        return hashtable[pos].getHandle().toString();
     }
 
 

@@ -18,6 +18,9 @@ public class HashTableTest extends TestCase {
     private Record record3;
     private Record record4;
 
+    /**
+     * the setUp method
+     */
     public void setUp() {
         hashtable = new HashTable(8);
         handle1 = new Seminar(1, "Overview of HCI Research at VT", "0610051600",
@@ -50,11 +53,20 @@ public class HashTableTest extends TestCase {
         hashtable.insert(record1);
         hashtable.insert(record2);
         hashtable.insert(record3);
-        hashtable.insert(record4);
     }
 
-
+    /**
+     * the test method for the insert in hashtable
+     */
     public void testInsert() {
+
+        System.out.print(hashtable.insert(record4));
+        assertEquals(systemOut().getHistory(),
+            "ID: 10, Title: Overview of HPC and CSE Research at VT\r\n"
+                + "Date: 0703301125, Length: 35, X: 0, Y: 0, Cost: 25\r\n"
+                + "Description: Learn what kind of research is done on HPC and CSE at VT\r\n"
+                + "Keywords: HPC, CSE, computer_science");
+        systemOut().clearHistory();
 
         System.out.print(hashtable.printHashtable());
         assertEquals(systemOut().getHistory(), "1: 1\r\n" + "2: 2\r\n"
@@ -63,8 +75,11 @@ public class HashTableTest extends TestCase {
 
     }
 
-
+    /**
+     * the test method for the remove in hashtable
+     */
     public void testRemove() {
+        hashtable.insert(record4);
         hashtable.remove(2);
         System.out.print(hashtable.printHashtable());
         assertEquals(systemOut().getHistory(), "1: 1\r\n" + "2: TOMBSTONE\r\n"
@@ -72,8 +87,11 @@ public class HashTableTest extends TestCase {
         systemOut().clearHistory();
     }
 
-
+    /**
+     * the test method for the search in hashtable
+     */
     public void testSearch() {
+        hashtable.insert(record4);
         System.out.print(hashtable.search(3));
         assertEquals(systemOut().getHistory(),
             "ID: 3, Title: Computing Systems Research at VT\r\n"
