@@ -9,7 +9,7 @@ public class HashTable {
     private Record[] hashtable;
     private int size;
     private Record tombstone;
-    private int number;
+    private int currentNumRecords;
 
     /**
      * constructor for the hash table
@@ -18,8 +18,8 @@ public class HashTable {
      *            The size of the hash table to begin with
      */
     public HashTable(int sizein) {
-        number = 0;
-        tombstone = new Record(null, -1);
+        currentNumRecords = 0;
+        tombstone = new Record(-1, null);
         size = sizein;
         hashtable = new Record[size];
     }
@@ -55,20 +55,24 @@ public class HashTable {
      * old array
      */
     private void expand() {
-        Record[] temp = hashtable;
-        hashtable = new Record[size * 2];
+        Record[] newHashtable = new Record[size * 2];
         for (int i = 0; i < size; i++) {
-            Record tempRecord = temp[i];
-            if (tempRecord != tombstone) {
-                insert(tempRecord);
+            Record tempRecord = hashtable[i];
+            if (tempRecord != tombstone && tempRecord != null) {
+                int key = tempRecord.getKey();
+                int pos = h1(key);
+                int c = h2(key);
+                while (newHashtable[pos] != null && newHashtable[pos] != tombstone) {
+                    pos = (pos + c) % size; // probe
+                }
+                newHashtable[pos] = tempRecord;
             }
         }
+        hashtable = newHashtable;
         size = size * 2;
     }
 
 
-// check for duplicates in the command processor not here (use the search
-// method) - output message if it already exists
     /**
      * the insert method for the hash table
      * 
@@ -76,18 +80,23 @@ public class HashTable {
      *            The record that needs to be added into the hash table
      */
     public String insert(Record record) {
-        if (size / 2 == number) {
+        // Return an empty string if there is already a record with the
+        // specified ID
+        if (search(record.getKey()) != null) {
+            return null;
+        }
+        if (size / 2 < currentNumRecords) {
             expand();
         }
         int key = record.getKey();
-        int home; // Home position for e
-        int pos = home = h1(key); // Init probe sequence
+        int home = h1(key); // Home position for e
+        int pos = home; // Init probe sequence
         int c = h2(key); // second hash function
         while (hashtable[pos] != null && hashtable[pos] != tombstone) {
             pos = (pos + c) % size; // probe
         }
         hashtable[pos] = record;
-        number++;
+        currentNumRecords++;
         return hashtable[pos].getHandle().toString();
     }
 
@@ -101,13 +110,13 @@ public class HashTable {
      *            The record that needs to be removed from the hash table
      */
     public boolean delete(int id) {
-        int home; // Home position for e
-        int pos = home = h1(id); // Init probe sequence
+        int home = h1(id); // Home position for e
+        int pos = home; // Init probe sequence
         int c = h2(id); // second hash function
         while (hashtable[pos] != null) {
             if (hashtable[pos].getKey() == id) {
                 hashtable[pos] = tombstone;
-                number--;
+                currentNumRecords--;
                 return true;
             }
             pos = (pos + c) % size; // probe
@@ -123,11 +132,11 @@ public class HashTable {
      * 
      * @param record
      *            The record that needs to be searched from the hash table
-     * @return wether or not the record being searched for was foundf
+     * @return whether or not the record being searched for was foundf
      */
     public String search(int id) {
-        int home;
-        int pos = home = h1(id);
+        int home = h1(id);
+        int pos = home;
         int c = h2(id);
         while (hashtable[pos] != null) {
             if (id == (hashtable[pos]).getKey()) { // Found it
@@ -135,23 +144,28 @@ public class HashTable {
                 return temp.getHandle().toString();
             }
             pos = (pos + c) % size; // probe
+            // then we've checked every possibility already
+            if (pos == home) {
+                break;
+            }
         }
         return null;
     }
+
 
     /**
      * the print method for the hashtable
      * 
      * @return
      */
-    public String printHashtable() {
+    public void dump() {
         int entries = 0;
         StringBuilder stringbuilder = new StringBuilder();
         String s = "Hashtable:";
         stringbuilder.append(s).append("\n");
         for (int i = 0; i < size; i++) {
             if (hashtable[i] != null) {
-                if (hashtable[i] == tombstone) {
+                if (hashtable[i].equals(tombstone)) {
                     s = i + ": TOMBSTONE";
                     stringbuilder.append(s).append("\n");
                 }
@@ -163,8 +177,8 @@ public class HashTable {
             }
         }
         s = "total records: " + entries;
-        stringbuilder.append(s).append("\n");
-        return stringbuilder.toString();
+        stringbuilder.append(s);
+        System.out.println(stringbuilder.toString());
     }
 
 }

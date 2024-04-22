@@ -43,9 +43,6 @@ public class SemManager {
      * 
      */
     public static void main(String[] args) {
-        // Initialize a hash table and memory manager using the parameters
-        MemoryManager mem = new MemoryManager(Integer.parseInt(args[0]));
-        HashTable hash = new HashTable(Integer.parseInt(args[1]));
 
         // the file containing the commands
         File file = null;
@@ -60,7 +57,9 @@ public class SemManager {
             Scanner scanner = new Scanner(file);
 
             // creates a command processor object
-            CommandProcessor cmdProc = new CommandProcessor();
+            int memSize = Integer.parseInt(args[0]);
+            int hashSize = Integer.parseInt(args[1]);
+            CommandProcessor cmdProc = new CommandProcessor(memSize, hashSize);
 
             // reads the entire file and processes the commands
             // as blank lines are encountered (insert is a multi

@@ -22,7 +22,7 @@ public class SemManagerTest extends TestCase {
     {
         SemManager sem = new SemManager();
         assertNotNull(sem);
-        String[] args = {"0", "0", "P1Sample_inputX.txt"};
+        String[] args = {"2", "2", "P1Sample_inputX.txt"};
         SemManager.main(args);
     }
 }

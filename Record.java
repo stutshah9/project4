@@ -18,7 +18,7 @@ public class Record {
      * @param keyin
      *            The ID of the seminar
      */
-    public Record(Seminar handlein, int keyin) {
+    public Record(int keyin, Seminar handlein) {
         handle = handlein;
         key = keyin;
     }

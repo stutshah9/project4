@@ -94,6 +94,6 @@ public class MemoryManager {
      * Dump a printout of the freeblock list
      */
     public void dump() {
-
+        System.out.println("Freeblock List:");
     }
 }

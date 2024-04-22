@@ -16,7 +16,7 @@ public class Block {
      * @param startin
      *            Start location of the block in the memory manager
      * @param sizein
-     *            The size of the block in memory manager
+     *            The size of the block in memory manager (a power of 2)
      */
     public Block(int startin, int sizein) {
         start = startin;

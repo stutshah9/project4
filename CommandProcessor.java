@@ -18,9 +18,14 @@ public class CommandProcessor {
      * The constructor for the command processor requires a database instance to
      * exist, so the only constructor takes a database class object to feed
      * commands to.
+     * 
+     * @param memSize
+     *            The size of the memory manager
+     * @param hashSize
+     *            The size of the hash table
      */
-    public CommandProcessor() {
-        data = new Database();
+    public CommandProcessor(int memSize, int hashSize) {
+        data = new Database(memSize, hashSize);
     }
 
 
@@ -86,19 +91,20 @@ public class CommandProcessor {
 
         else if (command.equals("print")) {
             // check the second arg to see what to print
-            if (arr[1].equals("hashtable"))
-            {
-             // Calls the print hashtable method that prints the keys and values
+            if (arr[1].equals("hashtable")) {
+                // Calls the print hashtable method that prints the keys and
+                // values
                 // of records in the hash table as well
                 // as the total number of records
                 data.printhashtable();
             }
             else {
-             // calls the print blocks method to print the number and sizes of
+                // calls the print blocks method to print the number and sizes
+                // of
                 // available free blocks in the memory manager
                 data.printblocks();
             }
-            
+
         }
         else {
             // the first white space delimited string in the line is not
