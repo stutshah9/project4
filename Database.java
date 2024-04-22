@@ -7,19 +7,20 @@
  * @version 4/18/2024
  */
 public class Database {
-    MemoryManager mm;
-    HashTable ht;
-    int size;
+    private MemoryManager mm;
+    private HashTable ht;
 
     /**
      * the database constructor
      * 
-     * @param sizein
+     * @param memSize
+     *            The size of the memory manager
+     * @param hashSize
+     *            The size of the hash table
      */
-    public Database(int sizein) {
-        size = sizein;
-        mm = new MemoryManager(sizein);
-        ht = new HashTable(sizein);
+    public Database(int memSize, int hashSize) {
+        mm = new MemoryManager(memSize);
+        ht = new HashTable(hashSize);
     }
 
 
@@ -29,7 +30,8 @@ public class Database {
      * @param id
      */
     public void delete(int id) {
-        if (!ht.delete(id)) {
+        boolean deletion = ht.delete(id);
+        if (!deletion) {
             System.out.println("Delete FAILED -- There is no record with ID "
                 + id);
         }
@@ -47,8 +49,23 @@ public class Database {
      * @param seminar
      */
     public void insert(Seminar seminar) {
-        // TODO Auto-generated method stub
-
+        String insertion = ht.insert(new Record(seminar.getId(), seminar));
+        if (insertion == null) {
+            System.out.println(
+                "Insert FAILED - There is already a record with ID " + seminar
+                    .getId());
+        }
+        else {
+            System.out.println("Successfully inserted record with ID " + seminar
+                .getId());
+            System.out.println(seminar.toString());
+            try {
+                System.out.println("Size: " + seminar.serialize().length);
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 
@@ -58,13 +75,14 @@ public class Database {
      * @param id
      */
     public void search(int id) {
-        if (ht.search(id) == null) {
+        String search = ht.search(id);
+        if (search == null) {
             System.out.println("Search FAILED -- There is no record with ID "
                 + id);
         }
         else {
             System.out.println("Found record with ID " + id + ":");
-            System.out.println(ht.search(id));
+            System.out.println(search);
         }
 
     }
@@ -74,13 +92,13 @@ public class Database {
      * print the hash table array
      */
     public void printhashtable() {
-        System.out.println(ht.printHashtable());
+        ht.dump();
 
     }
 
 
     public void printblocks() {
-        // TODO Auto-generated method stub
+        mm.dump();
 
     }
 
