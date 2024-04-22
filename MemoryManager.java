@@ -36,7 +36,17 @@ public class MemoryManager {
      * @return The position handle of the inserted record
      */
     public Handle insert(byte[] space, int size) {
+        expand();
         return new Handle(0, 0);
+    }
+    
+    private void expand() {
+        // Copy each slot of the old memory pool into the new memory pool
+        byte[] newMemoryPool = new byte[memoryPool.length*2];
+        for (int i = 0; i < memoryPool.length; i++) {
+            newMemoryPool[i] = memoryPool[i];
+        }
+        memoryPool = newMemoryPool;
     }
 
 
