@@ -38,7 +38,6 @@ public class MemoryManager {
      * @return The position handle of the inserted record
      */
     public Handle insert(byte[] space, int size) {
-        System.out.println("size " + size);
         // the largest block of free memory is at the end of the list
         while (size > freeList.get(freeList.size() - 1).getSize()) {
             expand();
