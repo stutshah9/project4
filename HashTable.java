@@ -70,6 +70,7 @@ public class HashTable {
         }
         hashtable = newHashtable;
         size = size * 2;
+        System.out.println("Hash table expanded to " + size + " records");
     }
 
 
@@ -108,21 +109,23 @@ public class HashTable {
      * 
      * @param record
      *            The record that needs to be removed from the hash table
+     * @return The handle of the record removed or null if not found
      */
-    public boolean delete(int id) {
+    public Handle delete(int id) {
         int home = h1(id); // Home position for e
         int pos = home; // Init probe sequence
         int c = h2(id); // second hash function
         while (hashtable[pos] != null) {
             if (hashtable[pos].getKey() == id) {
+                Handle handle = hashtable[pos].getHandle();
                 hashtable[pos] = tombstone;
                 currentNumRecords--;
-                return true;
+                return handle;
             }
             pos = (pos + c) % size; // probe
 
         }
-        return false;
+        return null;
 
     }
 
@@ -134,14 +137,14 @@ public class HashTable {
      *            The record that needs to be searched from the hash table
      * @return whether or not the record being searched for was foundf
      */
-    public String search(int id) {
+    public Handle search(int id) {
         int home = h1(id);
         int pos = home;
         int c = h2(id);
         while (hashtable[pos] != null) {
             if (id == (hashtable[pos]).getKey()) { // Found it
-                Record temp = hashtable[pos];
-                return temp.getHandle().toString();
+                Record temp = hashtable[pos];              
+                return temp.getHandle();
             }
             pos = (pos + c) % size; // probe
             // then we've checked every possibility already
