@@ -17,7 +17,7 @@ public class CommandProcessorTest extends TestCase {
      * Sets up the objects for the command processor tests
      */
     public void setUp() {
-        cmp = new CommandProcessor(2, 4);
+        cmp = new CommandProcessor(2048, 4096);
         out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(out));
 
@@ -98,7 +98,7 @@ public class CommandProcessorTest extends TestCase {
         assertFuzzyEquals("Hashtable:\ntotal records: 0", out.toString());
         out.reset();
         cmp.processor("print blocks");
-        assertFuzzyEquals("Freeblock List:\n", out.toString());
+        assertFuzzyEquals("Freeblock List:\n2048 0\n", out.toString());
     }
 
 

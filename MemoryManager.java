@@ -38,7 +38,12 @@ public class MemoryManager {
      * @return The position handle of the inserted record
      */
     public Handle insert(byte[] space, int size) {
+        // expand if there are no free blocks
+        if (freeList.size() == 0) {
+            expand();
+        }
         // the largest block of free memory is at the end of the list
+        // expand if the byte array won't fit
         while (size > freeList.get(freeList.size() - 1).getSize()) {
             expand();
         }
@@ -47,11 +52,16 @@ public class MemoryManager {
         while (freeList.get(insertionIndex).getSize() / 2 >= size) {
             // if no smaller blocks exist, we need to split the current block
             if (insertionIndex == 0) {
-                splitBlock();
+                splitBlock(0);
             }
             else {
                 insertionIndex--;
             }
+        }
+        // if the array doesn't fit, we need to backtrack
+        if (freeList.get(insertionIndex).getSize() < size) {
+            insertionIndex++;
+            splitBlock(insertionIndex);
         }
         // now the freeList has a block that can fit the byte array while
         // minimizing external fragmentation
@@ -62,17 +72,15 @@ public class MemoryManager {
     }
 
 
-    private void splitBlock() {
+    private void splitBlock(int index) {
         // split the current smallest block in half
-        int currentBlockSize = freeList.get(0).getSize();
-        int currentStart = freeList.get(0).getStart();
+        int currentBlockSize = freeList.get(index).getSize();
+        int currentStart = freeList.get(index).getStart();
         // replace the full size block with 1 block that is half the size
         // and 2 blocks that are 1/4 the size
-        freeList.get(0).setSize(currentBlockSize / 2);
-        freeList.get(0).setStart(currentStart + (currentBlockSize / 2));
-        freeList.add(0, new Block(currentStart, currentBlockSize / 4));
-        freeList.add(0, new Block(currentStart + (currentBlockSize / 4),
-            currentBlockSize / 4));
+        freeList.get(index).setSize(currentBlockSize / 2);
+        freeList.get(index).setStart(currentStart + (currentBlockSize / 2));
+        freeList.add(index, new Block(currentStart, currentBlockSize / 2));
     }
 
 
@@ -84,6 +92,7 @@ public class MemoryManager {
         }
         memoryPool = newMemoryPool;
         freeList.add(new Block(memoryPool.length / 2, memoryPool.length / 2));
+        checkForBuddies();
         System.out.println("Memory pool expanded to " + memoryPool.length
             + " bytes");
     }
@@ -104,7 +113,8 @@ public class MemoryManager {
         }
         Block newBlock = new Block(theHandle.getStart(), theHandle.getSize());
         int index = 0;
-        while (newBlock.getStart() > freeList.get(index).getStart()) {
+        while (freeList.size() != 0 && newBlock.getStart() > freeList.get(index)
+            .getStart()) {
             index++;
         }
         freeList.add(index, newBlock);
@@ -147,15 +157,14 @@ public class MemoryManager {
      */
     public int get(byte[] space, Handle theHandle, int size) {
         int numBytesCopied = Math.min(size, theHandle.getSize());
-        for (int i = theHandle.getStart(); i < numBytesCopied; i++) {
-            space[i] = memoryPool[i];
-        }
+        System.arraycopy(memoryPool, theHandle.getStart(), space, 0,
+            numBytesCopied);
         return numBytesCopied;
     }
 
 
     /**
-     * Dump a printout of the freeblock list
+     * Dump a printout of the free block list
      */
     public void dump() {
         System.out.print("Freeblock List:");
@@ -174,10 +183,30 @@ public class MemoryManager {
                 }
                 else {
                     // it's the second block of the same size
-                    System.out.println(" " + freeList.get(i).getStart());
+                    System.out.print(" " + freeList.get(i).getStart());
                 }
             }
             System.out.println();
         }
+    }
+
+
+    /**
+     * Accessor method for testing purposes
+     * 
+     * @return The freeBlock field
+     */
+    public ArrayList<Block> getFreeList() {
+        return this.freeList;
+    }
+
+
+    /**
+     * Accessor method for testing purposes
+     * 
+     * @return The memoryPool field
+     */
+    public byte[] getMemoryPool() {
+        return this.memoryPool;
     }
 }

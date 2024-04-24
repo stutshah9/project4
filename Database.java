@@ -30,12 +30,13 @@ public class Database {
      * @param id
      */
     public void delete(int id) {
-        boolean deletion = ht.delete(id);
-        if (!deletion) {
+        Handle deletion = ht.delete(id);
+        if (deletion == null) {
             System.out.println("Delete FAILED -- There is no record with ID "
                 + id);
         }
         else {
+            mm.remove(deletion);
             System.out.println("Record with ID " + id
                 + " successfully deleted from the database");
         }
@@ -49,13 +50,21 @@ public class Database {
      * @param seminar
      */
     public void insert(Seminar seminar) {
-        String insertion = ht.insert(new Record(seminar.getId(), seminar));
-        if (insertion == null) {
+        if (ht.search(seminar.getId()) != null) {
             System.out.println(
                 "Insert FAILED - There is already a record with ID " + seminar
                     .getId());
         }
         else {
+            Handle handle;
+            try {
+                handle = mm.insert(seminar.serialize(), seminar.serialize().length);
+                ht.insert(new Record(seminar.getId(), handle));
+            }
+            catch (Exception e1) {
+                e1.printStackTrace();
+            }
+
             System.out.println("Successfully inserted record with ID " + seminar
                 .getId());
             System.out.println(seminar.toString());
@@ -75,14 +84,22 @@ public class Database {
      * @param id
      */
     public void search(int id) {
-        String search = ht.search(id);
-        if (search == null) {
+        Handle searchHandle = ht.search(id);
+        if (searchHandle == null) {
             System.out.println("Search FAILED -- There is no record with ID "
                 + id);
         }
         else {
             System.out.println("Found record with ID " + id + ":");
-            System.out.println(search);
+            byte[] handleContents = new byte[searchHandle.getSize()];
+            mm.get(handleContents, searchHandle, searchHandle.getSize());
+            try {
+                System.out.println(Seminar.deserialize(handleContents)
+                    .toString());
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
     }

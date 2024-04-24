@@ -8,7 +8,7 @@
  */
 public class Record {
     private int key;
-    private Seminar handle;
+    private Handle handle;
 
     /**
      * Constructor method for the handle class
@@ -18,7 +18,7 @@ public class Record {
      * @param keyin
      *            The ID of the seminar
      */
-    public Record(int keyin, Seminar handlein) {
+    public Record(int keyin, Handle handlein) {
         handle = handlein;
         key = keyin;
     }
@@ -29,7 +29,7 @@ public class Record {
      * 
      * @return the whole seminar
      */
-    public Seminar getHandle() {
+    public Handle getHandle() {
         return handle;
     }
 

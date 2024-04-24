@@ -11,16 +11,13 @@ import student.TestCase;
 public class RecordTest extends TestCase {
 
     private Record record;
-    private Seminar handle;
+    private Handle handle;
 
     /**
      * Initialize a record object to use in testing
      */
     public void setUp() {
-        handle = new Seminar(1, "Overview of HCI Research at VT", "0610051600",
-            90, (short)10, (short)10, 45, new String[] { "HCI",
-                "Computer_Science", "VT", "Virginia_Tech" },
-            "This seminar will present an overview of HCI research at VT");
+        handle = new Handle(1, 10);
         record = new Record(1, handle);
     }
 

@@ -80,13 +80,13 @@ public class HashTable {
      * @param record
      *            The record that needs to be added into the hash table
      */
-    public String insert(Record record) {
+    public Handle insert(Record record) {
         // Return an empty string if there is already a record with the
         // specified ID
         if (search(record.getKey()) != null) {
             return null;
         }
-        if (size / 2 < currentNumRecords) {
+        if (size / 2 <= currentNumRecords) {
             expand();
         }
         int key = record.getKey();
@@ -98,7 +98,7 @@ public class HashTable {
         }
         hashtable[pos] = record;
         currentNumRecords++;
-        return hashtable[pos].getHandle().toString();
+        return hashtable[pos].getHandle();
     }
 
 
